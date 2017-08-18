@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.core.dao.product.BrandDao" >
+
+	<sql id="queryBrandWhere">
+		<where>
+			<if test="name != null">
+				`name` LIKE "%"#{name}"%"
+			</if>
+			<if test="isDisplay != null">
+				AND is_display = #{isDisplay} 
+			</if>
+		</where>
+	</sql>
+
+	<select id="findBrandList" parameterType="cn.itcast.core.pojo.product.BrandQuery" resultType="cn.itcast.core.pojo.product.Brand">
+		select id, name, description, img_url imgUrl, sort, is_display isDisplay 
+		from bbs_brand 
+		<where>
+			<if test="name != null">
+				name like "%"#{name}"%"
+			</if>
+			<if test="isDisplay != null">
+				and is_display=#{isDisplay}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 带查询条件 -->
+	<select id="queryBrandList" parameterType="cn.itcast.core.pojo.product.BrandQuery" resultType="cn.itcast.core.pojo.product.Brand">
+		SELECT id, `name`, description, img_url AS imgUrl, sort, is_display AS isDisplay FROM bbs_brand 
+		<!-- WHERE `name` LIKE "%"${name}"%" AND is_display = #{isDisplay} --> 
+		<include refid="queryBrandWhere"></include>
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	<!-- 计算品牌列表记录总数 -->
+	<select id="queryBrandCount" parameterType="cn.itcast.core.pojo.product.BrandQuery" resultType="int">
+		SELECT COUNT(id) FROM bbs_brand 
+		<include refid="queryBrandWhere"></include>
+	</select>
+
+	<!-- 根据id查询品牌信息 -->
+	<select id="queryBrandById" parameterType="long" resultType="cn.itcast.core.pojo.product.Brand">
+		SELECT id, `name`, description, img_url AS imgUrl, sort, is_display AS isDisplay FROM bbs_brand WHERE id = #{id}
+	</select>
+	
+	<!-- 更新品牌信息 -->
+	<update id="updateBrandById" parameterType="cn.itcast.core.pojo.product.Brand">
+		UPDATE bbs_brand 
+		<set>
+			<if test="name != null">
+				`name` = #{name},
+			</if>
+			<if test="description != null">
+				description = #{description},
+			</if>
+			<if test="imgUrl != null">
+				img_url = #{imgUrl},
+			</if>
+			<if test="sort != null">
+				sort = #{sort},
+			</if>
+			<if test="isDisplay != null">
+				is_display = #{isDisplay}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 批量删除品牌信息 -->
+	<delete id="deleteBrandByIds" parameterType="long[]">
+		DELETE FROM bbs_brand WHERE 
+		<if test="array != null">
+			<foreach collection="array" item="id" open="id in (" close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+	</delete>
+</mapper>
