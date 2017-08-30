@@ -13,6 +13,7 @@ public class Sku implements Serializable {
      * 商品ID
      */
     private Long productId;
+    private Product product;
 
     /**
      * 颜色ID
@@ -58,7 +59,16 @@ public class Sku implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    
+    public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public Long getId() {
         return id;
     }
 

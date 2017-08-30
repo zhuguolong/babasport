@@ -11,20 +11,20 @@
 <link type="text/css" rel="stylesheet" href="/css/search.css">
 <script type="text/javascript" src="/js/jquery-1.6.4.js"></script>
 <script type="text/javascript">
-// var brandId = "${brandId}";
-// var price = "${price}";
-// var keyword  = "${keyword}";
-// function fqBrand(brandId) {
-// 	window.location.href = "/product/list?keyword="+keyword+"&brandId=" + brandId+"&price="+price;
-// }
+ var brandId = "${brandId}";
+ var price = "${price}";
+ var keyword  = "${keyword}";
+ function fqBrand(brandId) {
+ 	window.location.href = "/product/list?keyword="+keyword+"&brandId=" + brandId+"&price="+price;
+ }
 
-// function fqPrice(price){
-// 	window.location.href = "/product/list?keyword="+keyword+"&price=" + price+"&brandId="+brandId;
-// }
+ function fqPrice(price){
+ 	window.location.href = "/product/list?keyword="+keyword+"&price=" + price+"&brandId="+brandId;
+ }
 
-// function detail(id){
-// 	window.open('/product/detail?productId='+id);
-// }
+ function detail(id){
+ 	window.open('/product/detail?productId='+id);
+ }
 </script>
 </head>
 <body>
@@ -55,14 +55,14 @@
 			</div>
 			<i class="crumbs-arrow">&gt;</i>
 			<div class="crumbs-nav-item">
-				<strong class="search-key">"瑜伽服"</strong>
+				<strong class="search-key">${keyword}</strong>
 			</div>
 			<c:if test="${fn:length(map) != 0 }">
 			<div class="sl-b-selected J_brandSelected">
 				<span class="crumbs-arrow">已选条件：</span>
 					<c:forEach items="${map }" var="m">
-						<a title="依琦莲（yiqilian）"  href="javascript:;" class="crumb-select-item">
-							<b>${m.key }：</b><em>${m.value }</em><i></i>
+						<a title=""  href="javascript:;" class="crumb-select-item">
+							<b>${m.key }</b><em>${m.value }</em><i></i>
 						</a>
 					</c:forEach>
 			</div>
@@ -277,7 +277,7 @@
 					</div>
 				</div>
 				<div class="p-name p-name-type-2">
-					<a target="_blank" title="满129立减10,199减20优惠券,支持货到付款" href="javascript:;" onclick="">
+					<a title="满129立减10,199减20优惠券,支持货到付款" href="javascript:;" onclick="window.open('http://localhost:8086/html/${product.id}.html')">
 						<em>${product.name }</em>
 					</a>
 				</div>

@@ -37,56 +37,56 @@ window.pageConfig = {
 	}
 };
 
-// var colorId;
-// var skuId;
-// function colorToRed(target,id) {
-// 	colorId = id;
-// 	$("#colors div").removeClass("selected");
-// 	$(target).addClass("selected");
+ var colorId;
+ var skuId;
+ function colorToRed(target,id) {
+ 	colorId = id;
+ 	$("#colors div").removeClass("selected");
+ 	$(target).addClass("selected");
 	
-// 	var html= "";
-// 	var tag = 0;
-// 	<c:forEach items="${skuList }" var="sku">
-// 		if(id == "${sku.colorId}"){
-// 			if(tag == 0){
-// 				html += '<div class="item selected" id="${sku.size}" onclick="sizeToRed(this,\'${sku.size}\')">'+
-// 						'<b></b><a href="javascript:;" title="${sku.size}" >${sku.size}</a>'+
-// 				    	'</div>';
-// 				tag = 1;
-// 				$("#bbs-price").html("${sku.price}");
-// 				skuId = "${sku.id}";
-// 			} else {
-// 				html += '<div class="item" id="${sku.size}" onclick="sizeToRed(this,\'${sku.size}\')">'+
-// 						'<b></b><a href="javascript:;" title="${sku.size}" >${sku.size}</a>'+
-// 		    			'</div>';
-// 			}
+ 	var html= "";
+ 	var tag = 0;
+ 	<c:forEach items="${skuList }" var="sku">
+ 		if(id == "${sku.colorId}"){
+ 			if(tag == 0){
+ 				html += '<div class="item selected" id="${sku.size}" onclick="sizeToRed(this,\'${sku.size}\')">'+
+ 						'<b></b><a href="javascript:;" title="${sku.size}" >${sku.size}</a>'+
+ 				    	'</div>';
+ 				tag = 1;
+ 				$("#bbs-price").html("${sku.price}");
+ 				skuId = "${sku.id}";
+ 			} else {
+ 				html += '<div class="item" id="${sku.size}" onclick="sizeToRed(this,\'${sku.size}\')">'+
+ 						'<b></b><a href="javascript:;" title="${sku.size}" >${sku.size}</a>'+
+ 		    			'</div>';
+ 			}
 			
-// 		}
-// 	</c:forEach>
-// 	$("#sizes").html(html);
-// }
+ 		}
+ 	</c:forEach>
+ 	$("#sizes").html(html);
+ }
 
-// function sizeToRed(target,id){
-// 	$("#sizes div").removeClass("selected");
-// 	$(target).addClass("selected");
+ function sizeToRed(target,id){
+ 	$("#sizes div").removeClass("selected");
+ 	$(target).addClass("selected");
 	
-// 	<c:forEach items="${skuList }" var="sku">
+ 	<c:forEach items="${skuList }" var="sku">
 	
-// 		if("${sku.colorId}" == colorId && id == "${sku.size}"){
-// 			$("#bbs-price").html("${sku.price}");
-// 			skuId = "${sku.id}";
-// 		}
-// 	</c:forEach>
-// }
+ 		if("${sku.colorId}" == colorId && id == "${sku.size}"){
+ 			$("#bbs-price").html("${sku.price}");
+ 			skuId = "${sku.id}";
+ 		}
+ 	</c:forEach>
+ }
 
-// $(function(){
-// 	$("#colors div:first").trigger("click");
-// });
+ $(function(){
+ 	$("#colors div:first").trigger("click");
+ });
 
-// //加入购物车
-// function addCart(){
-// 	window.open("/shopping/buyerCart?skuId=" + skuId +"&amount=" + $("#buy-num").val());
-// }
+ //加入购物车
+ function addCart(){
+ 	window.open("/shopping/buyerCart?skuId=" + skuId +"&amount=" + $("#buy-num").val());
+ }
 
 </script>
 </head>

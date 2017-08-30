@@ -15,6 +15,8 @@
 	<dubbo:registry address="N/A"/>
 	<!-- 3. 消费 默认1000 一秒 ,其中interface为借口全限定名，id为借口实现类的@Service值-->
 	<dubbo:reference interface="cn.itcast.core.interfaces.SearchService" id="searchServiceImpl" url="dubbo://127.0.0.1:20881"/>
+	<dubbo:reference interface="cn.itcast.core.interfaces.BrandService" id="brandServiceImpl" url="dubbo://127.0.0.1:20880"/>
+	<dubbo:reference interface="cn.itcast.core.interfaces.CmsService" id="cmsServiceImpl" url="dubbo://127.0.0.1:20882"/>
 	
 	<!-- 超时全局设置   10分钟  check="false"不检查服务提供方   -->
 	<dubbo:consumer timeout="600000" check="false"/>

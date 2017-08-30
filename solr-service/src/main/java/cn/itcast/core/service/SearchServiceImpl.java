@@ -2,6 +2,7 @@ package cn.itcast.core.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
@@ -24,7 +25,7 @@ public class SearchServiceImpl implements SearchService {
 	private HttpSolrServer solrServer;
 
 	@Override
-	public Pagination SearchProductPagination(String keyword, Integer pageNo) throws Exception {
+	public Pagination SearchProductPagination(String keyword, Integer pageNo, Long brandId, String price) throws Exception {
 		
 		StringBuilder params = new StringBuilder();
 		List<Product> productList = new ArrayList<>();
@@ -35,25 +36,49 @@ public class SearchServiceImpl implements SearchService {
 		//设置当前页数
 		productQuery.setPageNo(Pagination.cpn(pageNo));
 		//设置每页显示条数
-		productQuery.setPageSize(12);
+		productQuery.setPageSize(15);
 		
 		//创建查询对象
 		SolrQuery solrQuery = new SolrQuery();
 		//开始封装参数条件
-		//设置关键字查询
+		//1.设置关键字查询
 		if(keyword != null){
 			solrQuery.setQuery("name_ik:" + keyword);
 			params.append("&keyword=").append(keyword);
 		}else {
-			//solrQuery.setQuery("*:*");
+			solrQuery.setQuery("*:*");
 		}
-		//根据价格升序查询
+		//2.根据品牌过滤
+		if(brandId != null){
+			solrQuery.addFilterQuery("brandId:" + brandId);
+			params.append("$brandId=").append(brandId);
+		}
+		//3.根据价格过滤
+		if(price != null){
+			String[] split = price.split("-");
+			if(split.length == 2){
+				solrQuery.addFilterQuery("price:[" + split[0] + " TO "+ split[1] +"]");
+			}else{
+				solrQuery.addFilterQuery("price:[" + split[0] + " TO *]");
+			}
+			params.append("$price=").append(price);
+		}
+		//4.根据价格升序查询
 		solrQuery.setSort("price",ORDER.asc);
-		//分页
+		//5.分页
 		//设置从第几条开始查询，相当于SQL语句中limit的第一个参数
 		solrQuery.setStart(productQuery.getStartRow());
 		//每页查询多少条，相当于SQL语句中limit的第二个参数
 		solrQuery.setRows(productQuery.getPageSize());
+		//6.高亮显示
+		//开启高亮
+		solrQuery.setHighlight(true);
+		//设置高亮显示是域
+		solrQuery.addHighlightField("name_ik");
+		//设置高亮前缀
+		solrQuery.setHighlightSimplePre("<span style=\"color:red\">");
+		//设置高亮后缀
+		solrQuery.setHighlightSimplePost("</span>");
 		
 		//查询并返回响应
 		QueryResponse response = solrServer.query(solrQuery);
@@ -74,7 +99,14 @@ public class SearchServiceImpl implements SearchService {
 				}else{
 					product.setPrice(0f);
 				}
-				product.setName(String.valueOf(doc.get("name_ik")));
+				//获取商品名称(有高亮显示)
+				Map<String, Map<String, List<String>>> highlighting = response.getHighlighting();
+				List<String> list = highlighting.get(doc.get("id")).get("name_ik");
+				if(list != null && list.size() > 0){
+					product.setName(list.get(0));
+				}else{
+					product.setName(String.valueOf(doc.get("name_ik")));
+				}
 				
 				productList.add(product);
 			}
@@ -90,3 +122,49 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
